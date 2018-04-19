@@ -1,0 +1,7 @@
+﻿  Path.cpp
+c:\users\mikakau\desktop\pathfinding_vs\path_finding\path.cpp(95): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\mikakau\desktop\pathfinding_vs\path_finding\path.cpp(96): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\mikakau\desktop\pathfinding_vs\path_finding\path.cpp(98): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\mikakau\desktop\pathfinding_vs\path_finding\path.cpp(102): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  path_finding.vcxproj -> C:\Users\MikaKau\Desktop\pathfinding_vs\build\win32\Debug\path_finding.exe
+  path_finding.vcxproj -> C:\Users\MikaKau\Desktop\pathfinding_vs\build\win32\Debug\path_finding.pdb (Partial PDB)
