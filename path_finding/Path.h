@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <chrono>
+#include <deque>
 
 struct Cell
 {
@@ -12,7 +13,6 @@ struct Cell
 	int y = 0;
 };
 
-
 class Path
 {
 public:
@@ -21,14 +21,13 @@ public:
 		int walked = 0;
 		int score = 999999999;
 		Cell currentCell;
-		std::vector<StepInfo> previousSteps;
+		std::vector<Cell> previousSteps;
 	};
 
 	Path(uint8_t* map, int width, int height);
 	~Path();
 
 	void Calculate(Cell startCell, Cell endCell);
-	bool NotInClosed(const Cell next);
 	bool TimeIsUp();
 
 	Cell* PathSteps;
@@ -38,13 +37,14 @@ private:
 	uint8_t* mapData;
 	int mapWidth;
 	int mapHeight;
-	std::vector<StepInfo> openSteps;
-	std::vector<StepInfo> closedStep;
+	StepInfo* openSteps[3];
+	int stepCount = 0;
 
 	std::chrono::system_clock::time_point startTime = std::chrono::system_clock::now();
 
 private:
 	void GetBestStep(StepInfo* currentStep);
 	StepInfo CalculateStep(StepInfo* currentStep, Cell newPosition);
+	void AddStep(StepInfo step);
 };
 

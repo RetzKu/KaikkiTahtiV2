@@ -24,18 +24,10 @@ void Path::Calculate(Cell startCell, Cell endCell)
 	StepInfo firstStep;
 	firstStep.currentCell = startCell;
 	GetBestStep(&firstStep);
-}
-
-bool Path::NotInClosed(const Cell next)
-{
-	for (StepInfo step : closedStep)
+	while (firstStep.currentCell.x != endCell.x && firstStep.currentCell.y != endCell.y)
 	{
-		if (step.currentCell.x == next.x && step.currentCell.y == next.y)
-		{
-			return true;
-		}
+		GetBestStep(&firstStep);
 	}
-	return false;
 }
 
 void Path::GetBestStep(StepInfo* currentStep)
@@ -50,29 +42,38 @@ void Path::GetBestStep(StepInfo* currentStep)
 			uint8_t r = pix[2];
 			uint8_t g = pix[1];
 			uint8_t b = pix[0];
-			if (r == 255 && g == 255 && b == 255 || NotInClosed(Cell(currentCell.x + x, currentCell.y +y)))
+			if (r == 255 && g == 255 && b == 255)
 			{
 				CellCout(currentCell.x + x, currentCell.y + y);
-				pix[1] = 0;
+				//pix[1] = 0;
 				StepInfo newStep = CalculateStep(currentStep, Cell(currentCell.x + x, currentCell.y + y));
-				closedStep.push_back(newStep);
-				possibleSteps.push_back(newStep);
+				AddStep(newStep);
 			}
 		}
 	}
-	StepInfo bstCandi = possibleSteps[0];
-	for (StepInfo best : possibleSteps)
+}
+
+void Path::AddStep(StepInfo step)
+{
+	if (stepCount == 0)
 	{
-		if (best.walked- best.score > bstCandi.walked - bstCandi.score)
-		{
-			bstCandi = best;
-		}
-	}
-	if (bstCandi.currentCell.x == endCell.x && bstCandi.currentCell.y == endCell.y || TimeIsUp())
-	{
+		openSteps[0] = &step;
+		stepCount++;
 		return;
 	}
-	GetBestStep(&bstCandi);
+	for (int i = 0; i < stepCount; i++)
+	{
+		if (openSteps[i]->score >= step.score)
+		{
+			openSteps[stepCount] = openSteps[stepCount-1];
+			for (int j = 0; j < i; j++)
+			{
+				openSteps[stepCount - j + 1] = openSteps[stepCount - j];
+			}
+			openSteps[i] = &step;
+			stepCount++;
+		}
+	}
 }
 
 bool Path::TimeIsUp()
@@ -84,7 +85,6 @@ bool Path::TimeIsUp()
 	}
 	return false;
 }
-
 
 Path::StepInfo Path::CalculateStep(StepInfo* currentStep, Cell newPosition)
 {

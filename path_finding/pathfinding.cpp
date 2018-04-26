@@ -68,7 +68,6 @@ void doPathFinding(const uint8_t* inputData, int width, int height, uint8_t* out
 		outputData[i + 0] = inputData[i];
 		outputData[i + 1] = inputData[i+1];
 		outputData[i + 2] = inputData[i+2];
-
 	}
 	Path newPath(outputData,width,height);
 	newPath.Calculate(Cell(startX, startY), Cell(endX, endY));
